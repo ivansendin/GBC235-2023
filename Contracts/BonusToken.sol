@@ -1,5 +1,13 @@
 pragma solidity ^0.6.0;
 
+/**
+  @author Ivan da Silva Sendin
+  @title BonusToken
+  
+  This contract aims to manage the extra credits of this course.
+  
+*/
+
 import "OpenZeppelin/openzeppelin-contracts@3.0.0/contracts/token/ERC20/ERC20.sol";
 
 contract BonusToken is ERC20 {
@@ -20,8 +28,7 @@ mapping (address => bool) trustedAddresses;
   }
 
 
-c
-onstructor(uint256 initialSupply) public ERC20("BonusToken", "BTK") {
+constructor(uint256 initialSupply) public ERC20("BonusToken", "BTK") {
  owner =msg.sender;
         _mint(msg.sender, initialSupply);
 }
