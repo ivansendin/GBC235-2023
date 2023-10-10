@@ -1,5 +1,17 @@
 pragma solidity ^0.6.0;
 
+/**
+  @title tinyDeX
+
+  This is a minimal DeX contract.
+  Your tasks:
+  1) Collect a tax for contract and pool owner from each transaction
+  2) Implement the pool withdraw (onlyOwner)
+  3) A parameter setting a minimal amount of tokens received on transaction (use require)
+
+WARNING: There is a hidden bug that you will only notice when there is more than one pool.
+*/
+
 import "OpenZeppelin/openzeppelin-contracts@3.0.0/contracts/token/ERC20/ERC20.sol";
 
 contract tinyDeX {
