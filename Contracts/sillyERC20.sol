@@ -4,25 +4,37 @@ pragma solidity ^0.6.0;
 /**
   @title sillyERC20
 
-  This is a naive ERC20 implementation of
+  This is a naive ERC20 implementation of ERC20 interface available at
 
-  https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/v3.0.0/contracts/token/ERC20/IERC20.sol.
+  https://ethereum.org/en/developers/docs/standards/tokens/erc-20/
 
-  You can finde the bugs by yourself or you can use tools like Echdna .
+  (with  some modifications).
+
+
+  Your task is to finish the work...many verifications  are missing.
 */
 
-import "./IERC20.sol";
+interface IERC20 {
+  //function name() public view returns (string);
+  //function symbol() public view returns (string);
+  //function decimals() public view returns (uint8);
+  function totalSupply() external view returns (uint256);
+  function balanceOf(address _owner) external view returns (uint256 balance);
+  function transfer(address _to, uint256 _value) external returns (bool success);
+  function transferFrom(address _from, address _to, uint256 _value) external returns (bool success);
+  function approve(address _spender, uint256 _value) external returns (bool success);
+  function allowance(address _owner, address _spender) external view returns (uint256 remaining);
+}
+
 
 contract ERC20 is IERC20 {
+    
     uint256 public tokenSupply;
     mapping(address => uint256) public balance;
-
-    mapping(address => uint256) public totalAllowance;
     mapping(address => mapping(address => uint256)) public allowances;
 
     string public name;
     string public symbol;
-    uint8 public decimals = 3;
 
     constructor (string memory tokenName, string memory tokenSymbol, uint256 initialSupply) public  {
       name=tokenName;
@@ -31,33 +43,27 @@ contract ERC20 is IERC20 {
       balance[msg.sender] = initialSupply;
     }
 
-
     function transfer(address recipient, uint256 amount) external  override returns (bool) {
         if (balance[msg.sender]<amount) {
           return false;
         }
         balance[msg.sender] -= amount;
         balance[recipient] += amount;
-        emit Transfer(msg.sender, recipient, amount);
+
         return true;
     }
 
     function approve(address spender, uint amount) external  override returns (bool) {
-        if (balance[msg.sender] - totalAllowance[msg.sender]<amount) {
-          return false;
-        }
         allowances[msg.sender][spender] = amount;
-        totalAllowance[msg.sender] +=amount;
-        emit Approval(msg.sender, spender, amount);
+
         return true;
     }
 
     function transferFrom(address sender,address recipient,uint amount) external  override returns (bool) {
-        totalAllowance[msg.sender] -= amount;
         allowances[sender][msg.sender] -= amount;
         balance[sender] -= amount;
         balance[recipient] += amount;
-        emit Transfer(sender, recipient, amount);
+
         return true;
     }
 
@@ -73,4 +79,5 @@ contract ERC20 is IERC20 {
       return allowances[owner][spender];
     }
 
+ 
 }
